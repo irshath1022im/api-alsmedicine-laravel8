@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\ConsumptionControler;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\ReceivingItemsController;
+use App\Models\BatchNumber;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +35,14 @@ Route::resource('consumption', ConsumptionControler::class);
 
 Route::get('receivingsByBatchNumber/{batch_number}', [ReceivingItemsController::class, 'Receiving_logs_by_batch_number']);
 Route::get('consumptionsByBatchNumber/{batch_number_id}', [ConsumptionControler::class, 'consumptions_by_batch_number']);
+
+Route::get('nearbyexpiry', function (Request $request) {
+
+    // return BatchNumber::where('expiry_date', '>', Carbon::now())->orderBy('expiry_date')->get()->take(5);
+
+    $result= BatchNumber::find(10);
+
+    // dd($result);
+     return $result->expiry_date;
+
+});
