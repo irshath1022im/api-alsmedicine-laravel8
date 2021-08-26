@@ -11,22 +11,22 @@ class BatchNumber extends Model
     use HasFactory;
 
 
-    public function getExpiryDateAttribute($value)
-    {
-        $now = Carbon::now();
-        $dt = Carbon::createFromDate($value);
+    // public function getExpiryDateAttribute($value)
+    // {
+    //     $now = Carbon::now();
+    //     $dt = Carbon::createFromDate($value);
 
-        // return Carbon::now()->diffForHumans(Carbon::now()->subYear());
+    //     // return Carbon::now()->diffForHumans(Carbon::now()->subYear());
 
-        return Carbon::parse($dt)->diffForHumans($now);
+    //     return Carbon::parse($dt)->diffForHumans($now);
 
-        //  return $now->diffForHumans($dt);
-        // return $value->diffForHumans();
+    //     //  return $now->diffForHumans($dt);
+    //     // return $value->diffForHumans();
 
-        return $now->diffForHumans($dt->copy()->subMonth()); // 1 day from now
+    //     return $now->diffForHumans($dt->copy()->subMonth()); // 1 day from now
 
 
-    }
+    // }
 
     public function item()
     {
