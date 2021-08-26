@@ -33,6 +33,10 @@ Route::resource('locations', LocationController::class);
 Route::resource('consumption', ConsumptionControler::class);
 
 
+Route::get('itemSearch', [ItemController::class, 'itemSearch']);
+Route::get('consumptionSearch', [ConsumptionControler::class, 'seachById']);
+
+
 Route::get('receivingsByBatchNumber/{batch_number}', [ReceivingItemsController::class, 'Receiving_logs_by_batch_number']);
 Route::get('consumptionsByBatchNumber/{batch_number_id}', [ConsumptionControler::class, 'consumptions_by_batch_number']);
 
@@ -40,9 +44,49 @@ Route::get('nearbyexpiry', function (Request $request) {
 
     // return BatchNumber::where('expiry_date', '>', Carbon::now())->orderBy('expiry_date')->get()->take(5);
 
-    $result= BatchNumber::find(10);
+
+    $now = Carbon::now();
+    // $monthBefore = Carbon::parse($now)->subMonth();
+
+    $monthBefore = $request->monthBefore;
+    $monthAfter = $request->monthAfter;
+    $from = $request->from ? $request->from : $now->toDateString();
+    $to = $request->to;
+    $whereBetween = $from && $to;
+
+
+    $monthAterDate = $now->addMonth($monthAfter)->toDateString();
+    $monthBeforeDate = $now->subMonth($monthBefore+1)->toDateString();
+
+    $result= BatchNumber::
+                    //expiry items after / before specific month
+                    when($monthAfter, function($query)use($from,$monthAterDate)
+                    {
+                      return $query->whereBetween('expiry_date', [$from, $monthAterDate]);
+
+                    })
+                    ->when($monthBefore, function($query)use($from,$monthBeforeDate)
+                    {
+                      return $query->whereBetween('expiry_date', [$monthBeforeDate, $from]);
+
+                    })
+
+                    //expiry items between 2 date
+                    ->when( $whereBetween, function($query)use($from,$to){
+                        return $query->whereBetween('expiry_date', [$from, $to]);
+                    })
+                    ->orderByDesc('expiry_date')
+                    ->paginate(15)
+                    ->appends($request->except('page'))
+
+
+                    ;
+
+        //get wetween 2 date
+
+
 
     // dd($result);
-     return $result->expiry_date;
+     return $result;
 
 });

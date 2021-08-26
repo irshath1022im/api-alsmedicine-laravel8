@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ItemIndexResource;
 use App\Http\Resources\ItemShowResource;
+use App\Http\Resources\Search\ItemSearchResource;
 use App\Models\BatchNumber;
 use App\Models\Item;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class ItemController extends Controller
         //
 
         $searchByItemName = $request->item_name ;
+        $orderByExpiryDateDesc = $request->orderByExpiryDateDesc;
 
 
 
@@ -30,7 +32,7 @@ class ItemController extends Controller
                     })
                     ->orderByDesc('id')
                     ->paginate(10)
-                    ->appends($request->except('page'));
+                    ;
 
         // $collecction = $result->when($searchByItemName, function($result)use($searchByItemName){
         //     return $result->where('name', 'like', '%' .$searchByItemName);
@@ -95,5 +97,22 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function itemSearch(Request $request)
+    {
+
+        $searchByItemName = $request->itemName;
+        $result = Item::
+                    where('name', 'like', $searchByItemName. '%')
+                    ->get()
+                    ->take(5)
+                    ;
+
+        // return $result;
+
+        return ItemSearchResource::collection($result);
+
+        // return $request->all();
     }
 }

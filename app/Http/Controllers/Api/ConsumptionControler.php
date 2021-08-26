@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Consumption\ConsumptionIndexResource;
 use App\Http\Resources\Consumption\ConsumptionLogsByBatchNnumberIdResource;
+use App\Http\Resources\Search\ConsumptionSearchResource;
 use App\Models\Consumption;
 use Illuminate\Http\Request;
 
@@ -14,9 +16,22 @@ class ConsumptionControler extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $item_id = $request->item_id;
+
+        $result = Consumption::with(['item','location', 'batch_number'])
+                                ->when($item_id, function($query)use($item_id)
+                                {
+                                    return $query->where('item_id', $item_id);
+                                })
+                                ->orderByDesc('date')
+                                ->paginate(5);
+
+        return ConsumptionIndexResource::collection($result);
+
+
     }
 
     /**
@@ -119,6 +134,17 @@ class ConsumptionControler extends Controller
 
         return ConsumptionLogsByBatchNnumberIdResource::collection($result);
 
+    }
+
+    public function seachById(Request $request)
+    {
+
+        $serachByItemId = $request->item_id;
+        $result =Consumption::
+                   where('item_id', $serachByItemId)
+                   ->get();
+
+        return ConsumptionSearchResource::collection($result);
     }
 
 

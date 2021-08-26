@@ -13,9 +13,18 @@ class BatchNumber extends Model
 
     public function getExpiryDateAttribute($value)
     {
+        $now = Carbon::now();
         $dt = Carbon::createFromDate($value);
 
-         return $dt->diffForHumans($dt->copy()->subMonth());
+        // return Carbon::now()->diffForHumans(Carbon::now()->subYear());
+
+        return Carbon::parse($dt)->diffForHumans($now);
+
+        //  return $now->diffForHumans($dt);
+        // return $value->diffForHumans();
+
+        return $now->diffForHumans($dt->copy()->subMonth()); // 1 day from now
+
 
     }
 
