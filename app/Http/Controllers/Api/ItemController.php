@@ -104,7 +104,8 @@ class ItemController extends Controller
 
         $searchByItemName = $request->itemName;
         $result = Item::
-                    where('name', 'like', $searchByItemName. '%')
+                    where('name', 'like', '%'.$searchByItemName. '%')
+                    ->orWhere('erp_code', 'like', '%' .$searchByItemName.'%')
                     ->get()
                     ->take(5)
                     ;
