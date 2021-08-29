@@ -61,7 +61,7 @@ class ConsumptionControler extends Controller
            'location_id' => 'required|max:1',
            'item_id' => 'required',
            'batch_number_id' => 'required',
-           'qty' => 'required|max:1',
+           'qty' => 'required|min:1',
            'user_id'=>'required'
         ]);
 
