@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BatchNumberShowResource;
 use App\Models\BatchNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BatchNumberController extends Controller
 {
@@ -17,6 +18,12 @@ class BatchNumberController extends Controller
     public function index()
     {
         //
+
+        // $result = BatchNumber::with(['receiving_items' => function($query){
+        //     return $query->DB::raw()
+        // }, 'consumptions'])->get();
+        // return $result;
+
     }
 
     /**
@@ -36,11 +43,14 @@ class BatchNumberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($batchNumber)
     {
         //
 
-        $result = BatchNumber::with('receiving_items', 'consumptions')->where('batch_number', $id)->get();
+        $result = BatchNumber::
+                    with('receiving_items', 'consumptions')
+                    ->where('batch_number', $batchNumber)
+                    ->get();
 
         // return $result;
 

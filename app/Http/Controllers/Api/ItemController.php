@@ -22,7 +22,7 @@ class ItemController extends Controller
         //
 
         $searchByItemName = $request->item_name ;
-        $orderByExpiryDateDesc = $request->orderByExpiryDateDesc;
+        // $orderByExpiryDateDesc = $request->orderByExpiryDateDesc;
 
 
 
