@@ -21,7 +21,8 @@ class ConsumptionIndexResource extends JsonResource
             'batch_number'=> $this->batch_number->batch_number,
             'item_name' => $this->item->name,
             'location' => $this->location->location,
-            'qty' => $this->qty
+            'qty' => $this->qty,
+            'erp_code' => $this->item->erp_code
 
         ];
     }
