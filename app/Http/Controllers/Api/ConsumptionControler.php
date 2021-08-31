@@ -27,7 +27,7 @@ class ConsumptionControler extends Controller
                                     return $query->where('item_id', $item_id);
                                 })
                                 ->orderByDesc('date')
-                                ->paginate(5);
+                                ->paginate(10);
 
         return ConsumptionIndexResource::collection($result);
 
