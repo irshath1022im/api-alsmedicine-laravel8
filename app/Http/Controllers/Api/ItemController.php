@@ -71,8 +71,7 @@ class ItemController extends Controller
         // dd($result);
         // return $result;
 
-
-        return new ItemShowResource($result);
+        return new ItemIndexResource($result);
 
     }
 

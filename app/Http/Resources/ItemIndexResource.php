@@ -19,7 +19,7 @@ class ItemIndexResource extends JsonResource
             'id' => $this->id,
             'item_name' => $this->name,
             'erp_code' => $this->erp_code,
-            'stocks' => BatchNumberShowResource::collection($this->batch_numbers)
+            'batch_numbers' => BatchNumberShowResource::collection($this->batch_numbers)
         ];
     }
 }

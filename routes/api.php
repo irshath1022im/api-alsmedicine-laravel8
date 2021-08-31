@@ -27,7 +27,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('items', ItemController::class);
-Route::resource('receiving_items', ReceivingItemsController::class);
+Route::resource('
+0', ReceivingItemsController::class);
 Route::resource('batch_numbers', BatchNumberController::class);
 Route::resource('locations', LocationController::class);
 Route::resource('consumption', ConsumptionControler::class);
