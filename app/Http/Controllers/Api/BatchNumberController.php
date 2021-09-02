@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BatchNumberShowResource;
 use App\Models\BatchNumber;
+use App\Models\ReceivingItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -78,6 +79,60 @@ class BatchNumberController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    Public function minimumQty(Request $request, $qty)
+    {
+        // return BatchNumber::
+        //                 with(['receiving_items' => function($query)
+        //                 {
+        //                     return $query->selectRaw(DB::raw('sum(qty) as totalReceiving'))
+        //                                 ->groupBy('batch_number_id')
+        //                                  ->get();
+        //                 }])
+        //                 ->get()
+
+        //                 ;
+            // return $qty;
+
+        // return BatchNumber::
+        //             with(['receiving_items' => function($query)
+        //             {
+        //                 return $query->
+        //                              select('receiving_items.batch_number_id')
+        //                             ->selectRaw(DB::raw('sum(qty) as totalReceiving'))
+        //                             ->groupBy('batch_number_id')
+        //                             ;
+        //             }, 'consumptions' => function($query)
+        //                  {
+        //                         return $query->select('batch_number_id')
+        //                                     ->selectRaw(DB::raw('sum(qty) as totalConsumed'))
+        //                                     ->groupBy('batch_number_id')
+        //                                     ;
+
+        //                 }
+        //             ])
+
+        //             ->get();
+
+        $collection = BatchNumber::withSum('receiving_items', 'qty')
+                            ->withSum('consumptions', 'qty')
+                            ->get();
+
+
+
+
+       foreach ($variable as $key => $value) {
+            # code...
+        }
+
+        return $inStock;
+
+
+
+
+
     }
 
 

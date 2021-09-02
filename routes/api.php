@@ -30,6 +30,7 @@ Route::resource('items', ItemController::class);
 Route::resource('
 0', ReceivingItemsController::class);
 Route::resource('batch_numbers', BatchNumberController::class);
+Route::get('batch_numbers/minimumqty/{qty}', [BatchNumberController::class, 'minimumQty']);
 Route::resource('locations', LocationController::class);
 Route::resource('consumption', ConsumptionControler::class);
 
@@ -41,7 +42,7 @@ Route::get('consumptionSearch', [ConsumptionControler::class, 'seachById']);
 Route::get('receivingsByBatchNumber/{batch_number}', [ReceivingItemsController::class, 'Receiving_logs_by_batch_number']);
 Route::get('consumptionsByBatchNumber/{batch_number_id}', [ConsumptionControler::class, 'consumptions_by_batch_number']);
 
-Route::get('nearbyexpiry', function (Request $request) {
+Route::get('itemexpiry', function (Request $request) {
 
     // return BatchNumber::where('expiry_date', '>', Carbon::now())->orderBy('expiry_date')->get()->take(5);
 
@@ -76,8 +77,9 @@ Route::get('nearbyexpiry', function (Request $request) {
                     ->when( $whereBetween, function($query)use($from,$to){
                         return $query->whereBetween('expiry_date', [$from, $to]);
                     })
-                    ->orderByDesc('expiry_date')
+                    ->orderBy('expiry_date')
                     ->paginate(15)
+                    // ->count()
                     ->appends($request->except('page'))
 
 
@@ -91,3 +93,4 @@ Route::get('nearbyexpiry', function (Request $request) {
      return $result;
 
 });
+
