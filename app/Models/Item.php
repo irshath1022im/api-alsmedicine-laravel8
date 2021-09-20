@@ -9,6 +9,8 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'thumbnail', 'erp_code', 'remark', 'category_id'];
+
     public function receivings()
     {
         return $this->hasMany(ReceivingItem::class);

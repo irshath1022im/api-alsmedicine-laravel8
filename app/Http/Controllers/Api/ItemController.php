@@ -52,6 +52,18 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'thumbnail' => '',
+            'erp_code' => 'required',
+            'remark' => ''
+        ]);
+
+        $result = Item::create($validated);
+
+        return $result;
+
     }
 
     /**
