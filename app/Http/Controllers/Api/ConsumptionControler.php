@@ -20,11 +20,15 @@ class ConsumptionControler extends Controller
     {
         //
         $item_id = $request->item_id;
+        $batch_number_id = $request->batch_number_id;
 
         $result = Consumption::with(['item','location', 'batch_number'])
                                 ->when($item_id, function($query)use($item_id)
                                 {
                                     return $query->where('item_id', $item_id);
+                                })
+                                ->when($batch_number_id, function($query)use($batch_number_id){
+                                    return $query->where('batch_number_id', $batch_number_id);
                                 })
                                 ->orderByDesc('date')
                                 ->paginate(10);

@@ -27,13 +27,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('items', ItemController::class);
-Route::resource('
-0', ReceivingItemsController::class);
+// Route::resource('
+// 0', ReceivingItemsController::class);
 Route::resource('batch_numbers', BatchNumberController::class);
-Route::get('batch_numbers/minimumqty/{qty}', [BatchNumberController::class, 'minimumQty']);
 Route::resource('locations', LocationController::class);
 Route::resource('consumption', ConsumptionControler::class);
 
+Route::get('batch_numbers/minimumqty/{qty}', [BatchNumberController::class, 'minimumQty']);
 
 Route::get('itemSearch', [ItemController::class, 'itemSearch']);
 Route::get('consumptionSearch', [ConsumptionControler::class, 'seachById']);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ReceivingLogsByBatchNnumberResource extends JsonResource
@@ -28,7 +30,9 @@ class ReceivingLogsByBatchNnumberResource extends JsonResource
             'date' => $this->receiving->date,
             'po' => $this->receiving->po,
             'invoice_no' => $this->receiving->invoice_no,
-            'delivery_note' => $this->receiving->delivery_note
+            'delivery_note' => $this->receiving->delivery_note,
+            'expiry_date' => $this->batch_number->expiry_date,
+            'expiry_date_forHuman' =>  Carbon::now()->diffForHumans($this->batch_number->expiry_date)
         ];
     }
 }

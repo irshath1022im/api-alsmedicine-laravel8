@@ -36,6 +36,16 @@ class BatchNumberController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request->all();
+
+        $validated = $request->validate([
+            'item_id' => 'required',
+            'batch_number' => 'required',
+            'expiry_date' => 'required',
+            'initial_qty' => ''
+        ]);
+
+        $result = BatchNumber::create($validated);
     }
 
     /**
