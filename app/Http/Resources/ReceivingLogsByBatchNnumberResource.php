@@ -28,9 +28,14 @@ class ReceivingLogsByBatchNnumberResource extends JsonResource
             // 'receiving_items' => $this->receiving_items
             // 'batch_number' => new BatchNumberShowResource($this->batch_number),  //belongs to relatioship in batch_number
             'date' => $this->receiving->date,
-            'po' => $this->receiving->po,
-            'invoice_no' => $this->receiving->invoice_no,
-            'delivery_note' => $this->receiving->delivery_note,
+            'receiving_details' => [
+                'date' => $this->receiving->date,
+                'supplier_name' => $this->receiving->supplier->name,
+                'po' => $this->receiving->po,
+                'invoice_no' => $this->receiving->invoice_no,
+                'delivery_note' => $this->receiving->delivery_note,
+            ],
+
             'expiry_date' => $this->batch_number->expiry_date,
             'expiry_date_forHuman' =>  Carbon::now()->diffForHumans($this->batch_number->expiry_date)
         ];

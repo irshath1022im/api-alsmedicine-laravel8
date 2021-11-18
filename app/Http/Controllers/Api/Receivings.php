@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ReceivingLogsByBatchNnumberResource;
-use App\Http\Resources\ReceivingShowResource;
-use App\Models\ReceivingItem;
+use App\Http\Resources\Receiving\ReceivingShow;
+use App\Models\Receiving;
 use Illuminate\Http\Request;
 
-class ReceivingItemsController extends Controller
+class Receivings extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +17,7 @@ class ReceivingItemsController extends Controller
     public function index()
     {
         //
-        $result = ReceivingItem::get();
+        $result = Receiving::get();
 
         return $result;
     }
@@ -33,21 +32,18 @@ class ReceivingItemsController extends Controller
     {
         //
 
-        $validated = $request->validate([
-            'receiving_id' => 'required',
-            'item_id' => 'required',
-            'batch_number_id' => 'required',
-            'qty' => 'required',
-            'unit_price' => 'required',
-            'cost' => 'required',
+        $validatedData = $request->validate([
+            'date' => 'required',
+            'supplier_id' => 'required',
+            'po' => 'required',
+            'invoice_no' => 'required',
+            'delivery_note' => 'required',
+            'remark' => ''
         ]);
 
-        $result = ReceivingItem::create($validated);
+        $result = Receiving::create($validatedData);
 
         return response()->json($result);
-
-
-
     }
 
     /**
@@ -59,14 +55,10 @@ class ReceivingItemsController extends Controller
     public function show($id)
     {
         //
+        $result = Receiving::with('receiving_items')->findOrFail($id);
 
-        $result = ReceivingItem::with('receiving')
-                                    ->where('item_id', $id)
-                                ->get();
-
-                                // return $result;
-                                // dd($result);
-                    return ReceivingShowResource::collection($result);
+        return new ReceivingShow($result);
+        // return response()->json($result);
     }
 
     /**
@@ -91,15 +83,4 @@ class ReceivingItemsController extends Controller
     {
         //
     }
-
-    public function Receiving_logs_by_batch_number($id)
-    {
-        $result = ReceivingItem::with('batch_number', 'receiving', 'item')
-                            ->where('batch_number_id', $id)->get();
-
-        return ReceivingLogsByBatchNnumberResource::collection($result);
-    }
-
-
-
 }

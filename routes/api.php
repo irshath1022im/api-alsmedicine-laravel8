@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\ConsumptionControler;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\ReceivingItemsController;
+use App\Http\Controllers\Api\Receivings;
+use App\Http\Controllers\Api\Supplier;
 use App\Models\BatchNumber;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,11 +29,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('items', ItemController::class);
-// Route::resource('
-// 0', ReceivingItemsController::class);
+Route::resource('receivings',Receivings::class);
 Route::resource('batch_numbers', BatchNumberController::class);
 Route::resource('locations', LocationController::class);
 Route::resource('consumption', ConsumptionControler::class);
+Route::resource('suppliers', Supplier::class);
+Route::apiResource('receivingItems', ReceivingItemsController::class);
 
 Route::get('batch_numbers/minimumqty/{qty}', [BatchNumberController::class, 'minimumQty']);
 

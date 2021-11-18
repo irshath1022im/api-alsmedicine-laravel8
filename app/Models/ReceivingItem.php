@@ -9,6 +9,8 @@ class ReceivingItem extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['receiving_id', 'item_id', 'batch_number_id', 'qty', 'unit_price','cost','remark'];
+
     public function receiving()
     {
         return $this->belongsTo(Receiving::class);

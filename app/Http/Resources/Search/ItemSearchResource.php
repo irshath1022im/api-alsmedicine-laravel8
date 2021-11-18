@@ -17,7 +17,8 @@ class ItemSearchResource extends JsonResource
         // return parent::toArray($request);
         return [
             'title' => $this->name,
-            'id' => $this->id
+            'id' => $this->id,
+            'batch_numbers' => $this->batch_numbers
         ];
     }
 }
